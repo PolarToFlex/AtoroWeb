@@ -1,0 +1,6 @@
+.vscode/
+.alcache/
+.env
+core/storage/*
+/vendor
+/.idea

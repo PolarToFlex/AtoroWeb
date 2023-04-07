@@ -1,0 +1,22 @@
+{
+    "name": "atorotech/atoroweb",
+    "description": "The free, open-source webpanel for webhosting",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "NaysKutzu",
+            "email": "nayskutzu@gmail.com",
+            "homepage": "https://github.com/NaysKutzu",
+            "role": "Lead Developer"
+        },
+        {
+            "name": "Tye",
+            "email": "thayagan21@gmail.com",
+            "homepage": "https://github.com/snyderwillcode",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
