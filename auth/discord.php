@@ -37,7 +37,6 @@ if (isset($_GET['login'])) {
 }
 if (isset($_GET['code'])) {
     try {
-        // Exchange the auth code for a token
         $token = apiRequest($tokenURL, array(
             "grant_type" => "authorization_code",
             'client_id' => $_ENV['DISCORD_CLIENT_ID'],
@@ -59,10 +58,6 @@ if (isset($_GET['code'])) {
 if (isset($_SESSION['access_token'])) {
     $ipaddr = getclientip();
     $user = apiRequest($apiURLBase);
-    
-    //$user = json_encode(apiRequest($apiURLBase));
-    //echo $user;
-    
     if ($user->id != 852910297245286411 && $user->id != 741337166172389407 && $user->id != 895909117833654272) {
         $_SESSION['error'] = "Not released yet!";
         header("location: /auth/login");
@@ -72,6 +67,7 @@ if (isset($_SESSION['access_token'])) {
     $discriminator = $user->discriminator;
     $avatar = "https://cdn.discordapp.com/avatars/" . "$user->id" . '/' . "$user->avatar" . ".png";
     $email = $user->email;
+    $id = $user->id;
 
     if (empty($user->avatar)) {
         $avatar = "https://support.discord.com/hc/user_images/l12c7vKVRCd-XLIdDkLUDg.png";
@@ -87,7 +83,6 @@ if (isset($_SESSION['access_token'])) {
         header("location: /auth/login");
         die();
     }
-    // Check if user is in the guild
     $inDiscord = false;
     foreach ($guilds as $guild) {
         if (!empty($guild->id)) {
@@ -149,12 +144,42 @@ if (isset($_SESSION['access_token'])) {
         header("location: /auth/login");
         die();
     }
-        // Insert user into de big fat db
-        echo "Hi ".$username;
-        echo "Your discord # is: ".$discriminator;
-        echo "Your avatar is: ".$avatar;
-        echo "Your email is: ".$email;
-
+        $usersignupcheck = mysqli_query($conn, "SELECT * FROM users WHERE user_id = '" . mysqli_real_escape_string($conn, $user->id) . "'");
+        if ($usersignupcheck->num_rows == 0) {
+            $conn->query("INSERT INTO `users` (`username`, `user_id`, `discriminator`, `email`, `avatar`) 
+            VALUES ('".$username."', '".$id."', '".$discriminator."', '".$email."', '".$avatar."')");
+          $_SESSION['firstlogin'] = true;
+        }
+        else
+        {
+            $userdb = $conn->query("SELECT * FROM users WHERE user_id = '" . mysqli_real_escape_string($conn, $user->id) . "'")->fetch_all(MYSQLI_ASSOC);
+            if (!$userdb[0]["banned_reason"] == "0") {
+                $_SESSION['error'] = "Looks like you got banned for: ".$userdb[0]["banned_reason"];
+                header("location: /auth/errors/banned");
+                die();
+            }
+            $time = time();
+            mysqli_query($conn, "UPDATE users SET avatar = '$avatar' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE users SET username = '" . mysqli_real_escape_string($conn, $username) . "' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE users SET email = '$user->email' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE users SET discriminator = '$discriminator' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE users SET last_login = '$time' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE users SET lastlogin_ip = '$ipaddr' WHERE user_id = '$user->id'");
+            $_SESSION['firstlogin'] = false;
+        }
+        $_SESSION["uid"] = $user->id;
+        $_SESSION['loggedin'] = true;
+        if ($_SESSION['firstlogin'] == true) {
+            header("location: welcome");
+            logClient("[Auth] :wave: <@" . $user->id . "> logged in for the first time!");
+        } else {
+            if (isset($_SESSION["redirafterlogin"])) {
+                header("location: " . $_SESSION["redirafterlogin"]);
+            } else {
+                header("location: /");
+            }
+            logClient("[Auth] <@" . $user->id . "> logged in.");
+        }
     } else {
         header("location: ?login");
         die();
@@ -175,8 +200,6 @@ if (isset($_SESSION['access_token'])) {
             $headers[] = 'Accept: application/json';
             if ($_SESSION['access_token'])
                 $headers[] = 'Authorization: Bearer ' . $_SESSION['access_token'];
-
-
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
             $response = curl_exec($ch);
