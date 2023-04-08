@@ -167,7 +167,7 @@ if (isset($_SESSION['access_token'])) {
             mysqli_query($conn, "UPDATE users SET lastlogin_ip = '$ipaddr' WHERE user_id = '$user->id'");
             $_SESSION['firstlogin'] = false;
         }
-        $_SESSION["uid"] = $user->id;
+        $_SESSION["uid"] = $id;
         $_SESSION['loggedin'] = true;
         if ($_SESSION['firstlogin'] == true) {
             header("location: welcome");

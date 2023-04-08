@@ -7,7 +7,7 @@ CREATE TABLE `login_logs` (
   `ipaddr` text NOT NULL,
   `userid` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 LOCK TABLES `login_logs` WRITE;
@@ -28,7 +28,7 @@ CREATE TABLE `users` (
   `coins` text NOT NULL DEFAULT '0',
   `created` date NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 LOCK TABLES `users` WRITE;

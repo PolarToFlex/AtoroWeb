@@ -37,4 +37,6 @@ function logClient($message) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
     $response   = curl_exec($ch);
 }
+
+
 ?>
