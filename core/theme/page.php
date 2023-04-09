@@ -51,6 +51,26 @@ $userdb = $conn->query("SELECT * FROM at_users WHERE user_id = '" . mysqli_real_
           <!-- Divider -->
           <hr class="my-3">
           <!-- Heading -->
+          <h6 class="navbar-heading p-0 text-muted">
+            <span class="docs-normal">Links</span>
+          </h6>
+          <!-- Navigation -->
+          <ul class="navbar-nav mb-md-3">
+            <li class="nav-item">
+                <a class="nav-link" href="<?= $_ENV["APP_URL"] ?>/pma/index.php" target="_blank">
+                    <i class="fa fa-database"></i>
+                    <span class="nav-link-text">PhpMyAdmin</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= $_ENV["DISCORD_INVITE"] ?>" target="_blank">
+                    <i class="fab fa-discord"></i>
+                    <span class="nav-link-text">Discord</span>
+                </a>
+            </li>
+          </ul>
+         
+          <!-- Heading -->
           </ul>
         </div>
       </div>
@@ -95,11 +115,16 @@ $userdb = $conn->query("SELECT * FROM at_users WHERE user_id = '" . mysqli_real_
                 </div>
               </a>
               <div class="dropdown-menu  dropdown-menu-right ">
-                <div class="dropdown-header noti-title">
-                  <h6 class="text-overflow m-0">Welcome!</h6>
+                <div class="dropdown-header noti-title text-center">
+                  <h4 class="text-overflow m-0">Welcome, <?= $userdb["username"] ?>!</h4>
+                  <h5 class="text-overflow m-0">You have <?= $userdb["coins"]?> coins</h5>
                 </div>
+                <a href="/user/profile" class="dropdown-item">
+                  <i class="fa fa-user"></i>
+                  <span>Security</span>
+                </a>
                 <a href="/auth/logout" class="dropdown-item">
-                  <i class="ni ni-user-run"></i>
+                <i class="fa-solid fa-person-from-portal"></i>
                   <span>Logout</span>
                 </a>
               </div>

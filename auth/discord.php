@@ -1,5 +1,7 @@
 <?php 
 include('../core/imports/main.php');
+ini_set('session.gc_maxlifetime', 86400); 
+ini_set('session.cookie_lifetime', 0); 
 session_start();
 $authorizeURL = 'https://discord.com/api/oauth2/authorize';
 $tokenURL = 'https://discord.com/api/oauth2/token';
