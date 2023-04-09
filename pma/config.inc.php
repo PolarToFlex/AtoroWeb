@@ -13,7 +13,7 @@ declare(strict_types=1);
  * This is needed for cookie based authentication to encrypt the cookie.
  * Needs to be a 32-bytes long string of random bytes. See FAQ 2.10.
  */
-$cfg['blowfish_secret'] = '/IP%`MRy=??6v%yDaSX>;cdtzWE-^3en'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
+$cfg['blowfish_secret'] = '/IP%`MRy=??6v%yDaSX>;cdtzWE-^3en'; /* AtoroWeb Note: Chane this!! */
 $cfg['ThemeDefault'] = 'darkwolf';
 
 /**

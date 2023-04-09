@@ -1,7 +1,7 @@
 <?php 
 include(__DIR__.'/../../core/imports/main.php');
 include(__DIR__.'/../../core/imports/auth.php');
-$userdb = $conn->query("SELECT * FROM users WHERE user_id = '" . mysqli_real_escape_string($conn, $_SESSION["uid"]) . "'")->fetch_array();
+$userdb = $conn->query("SELECT * FROM at_users WHERE user_id = '" . mysqli_real_escape_string($conn, $_SESSION["uid"]) . "'")->fetch_array();
 
 
 ?>
@@ -78,41 +78,6 @@ $userdb = $conn->query("SELECT * FROM users WHERE user_id = '" . mysqli_real_esc
                   <i class="sidenav-toggler-line"></i>
                   <i class="sidenav-toggler-line"></i>
                   <i class="sidenav-toggler-line"></i>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item d-sm-none">
-              <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
-                <i class="ni ni-zoom-split-in"></i>
-              </a>
-            </li>
-            <li class="nav-item" style="color: white;">
-            <?= $userdb['username']?>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="ni ni-ungroup"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
-                <div class="row shortcuts px-4">
-                  <a href="" class="col-4 shortcut-item">
-                    <span class="shortcut-media avatar rounded-circle bg-gradient-red">
-                      <i class="fas fa-gamepad"></i>
-                    </span>
-                    <small>Game panel</small>
-                  </a>
-                  <a href="" class="col-4 shortcut-item">
-                    <span class="shortcut-media avatar rounded-circle bg-gradient-orange">
-                      <i class="fas fa-home"></i>
-                    </span>
-                    <small>Website</small>
-                  </a>
-                  <a href="" class="col-4 shortcut-item">
-                    <span class="shortcut-media avatar rounded-circle bg-gradient-info">
-                      <i class="fas fa-signal"></i>
-                    </span>
-                    <small>Status</small>
-                  </a>
                 </div>
               </div>
             </li>

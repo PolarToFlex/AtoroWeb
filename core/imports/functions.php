@@ -1,7 +1,7 @@
 <?php 
 include_once("main.php");
 //
-// GET IP
+// GET USER IP
 //
 function getclientip() {
     if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
@@ -20,7 +20,7 @@ function getclientip() {
 }
 
 //
-// SEND ACTION TO WEBHOOK
+// SEND MESSAGE TO WEBHOOK
 //
 function logClient($message) {
     $url = $_ENV['DISCORD_WEBHOOK'];

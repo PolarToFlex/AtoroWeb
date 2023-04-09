@@ -1,4 +1,7 @@
 <?php 
+//
+// Make sure the user is logged in!
+//
 session_start();
 if (!isset($_SESSION['loggedin'])) {
   if ($_SERVER["REQUEST_URI"] != "/") {

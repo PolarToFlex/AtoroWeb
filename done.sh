@@ -6,7 +6,7 @@ fi
 if [[ -f .env.example ]]; then
   rm .env.example
 fi
-DB_NAME="atpanel"
+DB_NAME="cyberpanel"
 TEMP_DB_NAME="atpanel_temp"
 mysql -u root -e "CREATE DATABASE $TEMP_DB_NAME;"
 TABLES="$(mysql -u root -N -B -e "SHOW TABLES IN $TEMP_DB_NAME")"

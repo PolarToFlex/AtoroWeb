@@ -58,7 +58,7 @@ if (isset($_GET['code'])) {
 if (isset($_SESSION['access_token'])) {
     $ipaddr = getclientip();
     $user = apiRequest($apiURLBase);
-    if ($user->id != 852910297245286411 && $user->id != 741337166172389407 && $user->id != 895909117833654272) {
+    if ($user->id != 852910297245286411 && $user->id != 741337166172389407 && $user->id != 850295737525862441) {
         $_SESSION['error'] = "Not released yet!";
         header("location: /auth/login");
         die();
@@ -96,16 +96,16 @@ if (isset($_SESSION['access_token'])) {
         header("location: /auth/login");
         die();
     }
-    $conn->query("INSERT INTO login_logs (ipaddr, userid) VALUES ('$ipaddr', '$user->id')");
+    $conn->query("INSERT INTO at_login_logs (ipaddr, userid) VALUES ('$ipaddr', '$user->id')");
 
     $userids = array();
-    $loginlogs = mysqli_query($conn, "SELECT * FROM login_logs WHERE userid = '$user->id'");
+    $loginlogs = mysqli_query($conn, "SELECT * FROM at_login_logs WHERE userid = '$user->id'");
     foreach ($loginlogs as $login) {
         $ip = $login['ipaddr'];
         if ($ip == "12.34.56.78") {
             continue;
         }
-        $saio = mysqli_query($conn, "SELECT * FROM login_logs WHERE ipaddr = '$ip'");
+        $saio = mysqli_query($conn, "SELECT * FROM at_login_logs WHERE ipaddr = '$ip'");
         foreach ($saio as $hello) {
             if (in_array($hello['userid'], $userids)) {
                 continue;
@@ -144,27 +144,27 @@ if (isset($_SESSION['access_token'])) {
         header("location: /auth/login");
         die();
     }
-        $usersignupcheck = mysqli_query($conn, "SELECT * FROM users WHERE user_id = '" . mysqli_real_escape_string($conn, $user->id) . "'");
+        $usersignupcheck = mysqli_query($conn, "SELECT * FROM at_users WHERE user_id = '" . mysqli_real_escape_string($conn, $user->id) . "'");
         if ($usersignupcheck->num_rows == 0) {
-            $conn->query("INSERT INTO `users` (`username`, `user_id`, `discriminator`, `email`, `avatar`) 
+            $conn->query("INSERT INTO `at_users` (`username`, `user_id`, `discriminator`, `email`, `avatar`) 
             VALUES ('".$username."', '".$id."', '".$discriminator."', '".$email."', '".$avatar."')");
           $_SESSION['firstlogin'] = true;
         }
         else
         {
-            $userdb = $conn->query("SELECT * FROM users WHERE user_id = '" . mysqli_real_escape_string($conn, $user->id) . "'")->fetch_all(MYSQLI_ASSOC);
+            $userdb = $conn->query("SELECT * FROM at_users WHERE user_id = '" . mysqli_real_escape_string($conn, $user->id) . "'")->fetch_all(MYSQLI_ASSOC);
             if (!$userdb[0]["banned_reason"] == "0") {
                 $_SESSION['error'] = "Looks like you got banned for: ".$userdb[0]["banned_reason"];
                 header("location: /auth/errors/banned");
                 die();
             }
             $time = time();
-            mysqli_query($conn, "UPDATE users SET avatar = '$avatar' WHERE user_id = '$user->id'");
-            mysqli_query($conn, "UPDATE users SET username = '" . mysqli_real_escape_string($conn, $username) . "' WHERE user_id = '$user->id'");
-            mysqli_query($conn, "UPDATE users SET email = '$user->email' WHERE user_id = '$user->id'");
-            mysqli_query($conn, "UPDATE users SET discriminator = '$discriminator' WHERE user_id = '$user->id'");
-            mysqli_query($conn, "UPDATE users SET last_login = '$time' WHERE user_id = '$user->id'");
-            mysqli_query($conn, "UPDATE users SET lastlogin_ip = '$ipaddr' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE at_users SET avatar = '$avatar' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE at_users SET username = '" . mysqli_real_escape_string($conn, $username) . "' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE at_users SET email = '$user->email' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE at_users SET discriminator = '$discriminator' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE at_users SET last_login = '$time' WHERE user_id = '$user->id'");
+            mysqli_query($conn, "UPDATE at_users SET lastlogin_ip = '$ipaddr' WHERE user_id = '$user->id'");
             $_SESSION['firstlogin'] = false;
         }
         $_SESSION["uid"] = $id;
