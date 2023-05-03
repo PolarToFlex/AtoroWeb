@@ -11,7 +11,7 @@ if (file_exists(__DIR__ . '/../../.env')) {
     }
     else
     {
-        echo "<script>alert('Woops looks like your installation is corupted\n Please reinstall cyberpanel and atorodash\n Error: 404 .env file is not found');</script>";
+        echo "<script>alert('Woops looks like your installation is corrupted\n Please reinstall CyberPanel and AtoroDash\n Error: 404 .env file is not found\n Error: 404 .env file is not found');</script>";
     }
 }
 ?>
